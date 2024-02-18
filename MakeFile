@@ -1,0 +1,28 @@
+# Makefile
+
+# Compiler
+CXX = g++
+
+# Compilation flags
+CXXFLAGS = -std=c++11 -Wall
+
+# Source files
+SRC_FILES = src/MoveGeneration/moveGeneration.cpp src/PieceVision/pieceVision.cpp src/Update/update.cpp
+
+# Object files
+OBJ_FILES = $(SRC_FILES:.cpp=.o)
+
+# Target executable
+TARGET = myProgram
+
+# Rule to build the executable
+$(TARGET): $(OBJ_FILES)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+# Rule to build object files from source files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean rule to remove object files and the executable
+clean:
+	rm -f $(OBJ_FILES) $(TARGET)
