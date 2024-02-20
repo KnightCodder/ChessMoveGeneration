@@ -19,7 +19,7 @@ struct Piece
     int color = 0;
     PieceType piece_type = PieceType::EMPTY;
     int index = -1;
-    Piece ***vision; // points to board
+    Piece ***vision = nullptr; // points to board
 
     Piece() : vision(new Piece**[8]) {
         for (int i = 0; i < 8; i++)

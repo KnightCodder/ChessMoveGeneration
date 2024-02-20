@@ -207,3 +207,27 @@ Piece*** Board::pawn_vision(int index[], int color)
             array[3][1] = &board[rank + color][file - 1];
     }
 }
+
+Piece*** Board::piece_vision(int index[])
+{
+    int rank = index[0];
+    int file = index[1];
+    PieceType pieceType = board[rank][file].piece_type;
+
+    if (board[rank][file].isEmpty)
+        return nullptr;
+    else if (pieceType == PieceType::PAWN)
+        return pawn_vision(index, board[rank][file].color);
+    else if (pieceType == PieceType::KNIGHT)
+        return knight_vision(index);
+    else if (pieceType == PieceType::BISHOP)
+        return bishop_vision(index);
+    else if (pieceType == PieceType::ROOK)
+        return rook_vision(index);
+    else if (pieceType == PieceType::QUEEN)
+        return queen_vision(index);
+    else if (pieceType == PieceType::KING)
+        return king_vision(index);
+    else
+        std::cout << "error in Piece*** Board::piece_vision" << std::endl;
+}

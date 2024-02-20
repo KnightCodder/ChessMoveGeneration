@@ -56,6 +56,7 @@ public:
     Piece ***queen_vision(int index[]);
     Piece ***king_vision(int index[]);
     Piece ***pawn_vision(int index[], int color);
+    Piece ***piece_vision(int index[]);
     void move_generation();
     void update(int from[], int to[]);
 
@@ -239,11 +240,11 @@ public:
 
                 board[rank][file].vision = kVision;
 
-                black_king_check_vision[0] = kVision;
-                black_king_check_vision[1] = rook_vision(index);
-                black_king_check_vision[2] = bishop_vision(index);
-                black_king_check_vision[3] = knight_vision(index);
-                black_king_check_vision[4] = pawn_vision(index, white_turn);
+                white_king_check_vision[0] = kVision;
+                white_king_check_vision[1] = rook_vision(index);
+                white_king_check_vision[2] = bishop_vision(index);
+                white_king_check_vision[3] = knight_vision(index);
+                white_king_check_vision[4] = pawn_vision(index, white_turn);
                 
 
                 file++;
