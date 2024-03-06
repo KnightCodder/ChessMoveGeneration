@@ -19,18 +19,15 @@ struct Piece
     int color = 0;
     PieceType piece_type = PieceType::EMPTY;
     int index = -1;
-    Piece ***vision = nullptr; // points to board
+    std::array<std::vector<Piece *>, 8>vision; // points to board
 
-    Piece() : vision(new Piece**[8]) {
-        for (int i = 0; i < 8; i++)
-            vision[i] = new Piece*[7];
+    Piece(){
+
     }
 
     ~Piece()
     {
-        for (int i = 0; i < 8; i++)
-            delete [] vision[i];
-        delete [] vision;
+
     }
 };
 

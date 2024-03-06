@@ -1,15 +1,15 @@
 // src/Board/board.h
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef BOARD_H_INCLUDED
+#define BOARD_H_INCLUDED
 
 #include <vector>
 #include <string>
 #include <sstream>
 #include <array>
 #include <iostream>
-#include "../Piece/piece.h"
+#include "piece.h"
 
-std::array<int, 2> squareNameToIndex(std::string square)
+inline std::array<int, 2> squareNameToIndex(std::string square)
 {
     int file = square[0] - 'a';
     int rank = square[1] - '1';
@@ -17,7 +17,7 @@ std::array<int, 2> squareNameToIndex(std::string square)
     return {rank, file};
 }
 
-std::string indexToSquareName(std::array<int, 2> index)
+inline std::string indexToSquareName(std::array<int, 2> index)
 {
     if (index[0] == -1)
         return "nil";
@@ -46,19 +46,20 @@ class Board
     int materialBalance = 0;
     int turn = 0;
     std::string FEN = "";
-    Piece ****white_king_check_vision = new Piece*** [5];
-    Piece ****black_king_check_vision = new Piece*** [5];
+    std::array<std::vector<Piece *>, 8> white_king_check_vision[5];
+    std::array<std::vector<Piece *>, 8> black_king_check_vision[5];
 
 public:
-    Piece ***bishop_vision(int index[]);
-    Piece ***knight_vision(int index[]);
-    Piece ***rook_vision(int index[]);
-    Piece ***queen_vision(int index[]);
-    Piece ***king_vision(int index[]);
-    Piece ***pawn_vision(int index[], int color);
-    Piece ***piece_vision(int index[]);
-    void move_generation();
+    std::array<std::vector<Piece *>, 8> bishop_vision(int index[]);
+    std::array<std::vector<Piece *>, 8> knight_vision(int index[]);
+    std::array<std::vector<Piece *>, 8> rook_vision(int index[]);
+    std::array<std::vector<Piece *>, 8> queen_vision(int index[]);
+    std::array<std::vector<Piece *>, 8> king_vision(int index[]);
+    std::array<std::vector<Piece *>, 8> pawn_vision(int index[], int color);
+    std::array<std::vector<Piece *>, 8> piece_vision(int index[]);
+    std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 3> move_generation();
     void update(int from[], int to[]);
+    bool isCheck(int color);
 
     void printBoard()
     {
@@ -97,6 +98,7 @@ public:
         for (char s : modified_fen[0])
         {
             int index[] = {rank, file};
+
             switch (s)
             {
             case 'p':
@@ -160,16 +162,13 @@ public:
                 board[rank][file].isEmpty = false;
                 Pboard[rank][file] = s;
 
-                Piece*** kVision = king_vision(index);
+                board[rank][file].vision = king_vision(index);
 
-                board[rank][file].vision = kVision;
-
-                black_king_check_vision[0] = kVision;
+                black_king_check_vision[0] = king_vision(index);
                 black_king_check_vision[1] = rook_vision(index);
                 black_king_check_vision[2] = bishop_vision(index);
                 black_king_check_vision[3] = knight_vision(index);
                 black_king_check_vision[4] = pawn_vision(index, black_turn);
-                
 
                 file++;
                 piece_id++;
@@ -235,17 +234,13 @@ public:
                 board[rank][file].index = (rank * 8) + file;
                 board[rank][file].isEmpty = false;
                 Pboard[rank][file] = s;
+                board[rank][file].vision = king_vision(index);
 
-                Piece*** kVision = king_vision(index);
-
-                board[rank][file].vision = kVision;
-
-                white_king_check_vision[0] = kVision;
+                white_king_check_vision[0] = king_vision(index);
                 white_king_check_vision[1] = rook_vision(index);
                 white_king_check_vision[2] = bishop_vision(index);
                 white_king_check_vision[3] = knight_vision(index);
                 white_king_check_vision[4] = pawn_vision(index, white_turn);
-                
 
                 file++;
                 piece_id++;
@@ -301,9 +296,9 @@ public:
     }
 
     ~Board()
-    { 
+    {
         std::cout << "board is deleted" << std::endl;
     }
 };
 
-#endif
+#endif // BOARD_H_INCLUDED

@@ -1,4 +1,4 @@
-#include "../Board/board.h"
+#include "board.h"
 
 void Board::update(int from[], int to[])
 {
@@ -21,7 +21,7 @@ void Board::update(int from[], int to[])
         board[rank_from][file_from].color = 0;
         board[rank_from][file_from].piece_type = PieceType::EMPTY;
         board[rank_from][file_from].index = index_from;
-        board[rank_from][file_from].vision = nullptr;
+        board[rank_from][file_from].vision = {};
     }
 
     // changing Pboard
