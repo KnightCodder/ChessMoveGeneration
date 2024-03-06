@@ -1,6 +1,6 @@
 #include "board.h"
 
-void Board::update(int from[], int to[])
+void Board::update(int from[], int to[], bool isCastle)
 {
     int rank_from = from[0];
     int file_from = from[1];
@@ -29,6 +29,9 @@ void Board::update(int from[], int to[])
         Pboard[rank_to][file_to] = Pboard[rank_from][file_from];
         Pboard[rank_from][file_from] = '*';
     }
+
+    if (isCastle) // use it after rook move so that turn , fifty moves, and other things dont change without any reason
+        return;
 
     // castle
     {

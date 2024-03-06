@@ -58,7 +58,7 @@ public:
     std::array<std::vector<Piece *>, 8> pawn_vision(int index[], int color);
     std::array<std::vector<Piece *>, 8> piece_vision(int index[]);
     std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 3> move_generation();
-    void update(int from[], int to[]);
+    void update(int from[], int to[], bool isCastle = false);
     bool isCheck(int color);
 
     void printBoard()
@@ -78,6 +78,36 @@ public:
         std::cout << "fifty moves : " << fifty_moves << std::endl;
         std::cout << "turn : " << turn << std::endl;
         std::cout << "FEN : " << FEN << std::endl;
+
+        // for (int rank = 7; rank >= 0; rank--)
+        // {
+        //     for (int file = 0; file < 8; file++)
+        //     {
+        //         std::cout << rank  << "  " << file << "  " << static_cast<int>(board[rank][file].piece_type) << std::endl;
+        //         for(auto i : board[rank][file].vision)
+        //         {
+        //             for(auto j : i)
+        //             {
+        //                 std::cout << j->index << " ";
+        //             }
+        //             std::cout << "--------------------------------\n";
+        //         }
+        //         std::cout << '\n';
+        //     }
+        // }
+
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     for (auto j : white_king_check_vision[i])
+        //     {
+        //         for (auto k : j)
+        //         {
+        //             std::cout << k->index << " ";
+        //         }
+        //         std::cout << "--------------------------------\n";
+        //     }
+        //     std::cout << '\n';
+        // }
     }
 
     Board(std::string fen = default_fen)
@@ -253,7 +283,10 @@ public:
             default:
                 int num = s - '0';
                 for (int i = file; i < file + num; i++)
+                {
                     Pboard[rank][i] = '*';
+                    board[rank][i].index = (rank * 8) + i;
+                }
 
                 file += num;
                 break;

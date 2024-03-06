@@ -16,6 +16,9 @@ TEST_DIR = tests
 # List of source files
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
+# List of header files
+Header = $(wildcard $(SRC_DIR)/*.h)
+
 # List of object files
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 

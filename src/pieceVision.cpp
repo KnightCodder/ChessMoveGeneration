@@ -102,7 +102,7 @@ std::array<std::vector<Piece *>, 8> Board::king_vision(int index[])
         file += som[i][1];
 
         if (rank < 0 || rank > 7 || file < 0 || file > 7)
-            break;
+            continue;
 
         array[i].push_back(&board[rank][file]);
         // std::cout << "i : " << i << "  j : " << 0 << "  rank : " << rank << "  file : " << file << std::endl;
@@ -128,7 +128,7 @@ std::array<std::vector<Piece *>, 8> Board::knight_vision(int index[])
         file += som[i][1];
 
         if (rank < 0 || rank > 7 || file < 0 || file > 7)
-            break;
+            continue;
 
         array[i].push_back(&board[rank][file]);
         // std::cout << "i : " << i << "  j : " << 0 << "  rank : " << rank << "  file : " << file << std::endl;
@@ -144,7 +144,7 @@ std::array<std::vector<Piece *>, 8> Board::pawn_vision(int index[], int color)
     int rank = index[0];
     int file = index[1];
 
-    if (rank < 7 && rank > 0 && (rank != 6 || color == black_turn) && (rank != 1 || color == white_turn))
+    if (rank <= 7 && rank >= 0 && (rank != 6 || color == black_turn) && (rank != 1 || color == white_turn))
     {
         array[0].push_back(&board[rank + color][file]);
         if (file < 7)
@@ -156,7 +156,7 @@ std::array<std::vector<Piece *>, 8> Board::pawn_vision(int index[], int color)
         array[0].push_back(&board[rank + 2][file]);
     if (rank == 6 && color == black_turn)
         array[0].push_back(&board[rank - 2][file]);
-    else
+    if ((rank == 6 && color == white_turn) || (rank == 1 && color == black_turn))
     {
         array[2].push_back(&board[rank + color][file]);
         if (file < 7)
