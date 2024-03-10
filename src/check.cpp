@@ -8,7 +8,10 @@ bool Board::isCheck(int color)
         {
             for (int j = 0; j < 8; j++)
             {
-                
+                for(auto k : black_king_check_vision[i][j])
+                {
+                    
+                }
             }
         }
     }

@@ -24,6 +24,47 @@ void Board::update(int from[], int to[], bool isCastle)
         board[rank_from][file_from].vision = {};
     }
 
+    // changing relative of pieces that the captured piece used to see
+    {
+        for (auto i : board[rank_to][file_to].moves)
+        {
+            for (auto j : i)
+            {
+                board[j.second.first][j.second.second].delete_relative(&board[rank_to][file_to]);
+            }
+        }
+    }
+
+    {
+        for (auto i : board[rank_from][file_from].relatives)
+        {
+            int relative_index = i->index;
+            int relative_rank = relative_index / 8;
+            int relative_file = relative_index - (8 * relative_rank);
+            i->moves = piece_move_generation(relative_rank, relative_file);
+        }
+    }
+
+    // changing moves of relative pieces
+    {
+        std::set<Piece *> temp = board[rank_to][file_to].relatives;
+        board[rank_to][file_to].relatives = {};
+
+        for (auto i : temp)
+        {
+            int relative_index = i->index;
+            int relative_rank = relative_index / 8;
+            int relative_file = relative_index - (8 * relative_rank);
+
+            i->moves = piece_move_generation(relative_rank, relative_file);
+        }
+    }
+
+    // generating moves of at new location for the piece
+    {
+        board[rank_to][file_to].moves = piece_move_generation(rank_to, file_to);
+    }
+
     // changing Pboard
     {
         Pboard[rank_to][file_to] = Pboard[rank_from][file_from];
@@ -46,11 +87,35 @@ void Board::update(int from[], int to[], bool isCastle)
     }
     // enpassent
     {
+        if (enpassent[0] != -1)
+        {
+            int enpassent_rank = enpassent[0];
+            int enpassent_file = enpassent[1];
+
+            enpassent = {-1, -1};
+
+            for (auto i : board[enpassent_rank][enpassent_file].relatives)
+            {
+                if (i->piece_type != PieceType::PAWN)
+                    continue;
+
+                int relative_index = i->index;
+                int relative_rank = relative_index / 8;
+                int relative_file = relative_index - (8 * relative_rank);
+
+                i->moves = piece_move_generation(relative_rank, relative_file);
+            }
+        }
+
         if (piece_from == PieceType::PAWN && ((rank_from == 1 && rank_to == 3) || (rank_from == 6 && rank_to == 4)))
         {
-            if (((file_to > 0 && board[rank_to][file_to - 1].piece_type == PieceType::PAWN) || (file_to < 7 && board[rank_to][file_to + 1].piece_type == PieceType::PAWN)) && board[rank_to][file_to].color * board[rank_to][file_to - 1].color < 0)
+            if (((file_to > 0 && board[rank_to][file_to - 1].piece_type == PieceType::PAWN) || (file_to < 7 && board[rank_to][file_to + 1].piece_type == PieceType::PAWN)) && (board[rank_to][file_to].color * board[rank_to][file_to - 1].color < 0 || board[rank_to][file_to].color * board[rank_to][file_to + 1].color < 0))
             {
                 enpassent = {(rank_from + rank_to) / 2, file_to};
+                if (file_to < 7)
+                    board[rank_to][file_to + 1].moves = piece_move_generation(rank_to, file_to + 1);
+                if (file_to > 0)
+                    board[rank_to][file_to - 1].moves = piece_move_generation(rank_to, file_to - 1);
             }
         }
     }

@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <array>
+#include <set>
 #include <iostream>
 #include "piece.h"
 
@@ -45,9 +46,12 @@ class Board
     int fifty_moves = 0;
     int materialBalance = 0;
     int turn = 0;
+    bool Check_status = false;
+
     std::string FEN = "";
     std::array<std::vector<Piece *>, 8> white_king_check_vision[5];
     std::array<std::vector<Piece *>, 8> black_king_check_vision[5];
+    std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 6> moves = {};
 
 public:
     std::array<std::vector<Piece *>, 8> bishop_vision(int index[]);
@@ -57,9 +61,17 @@ public:
     std::array<std::vector<Piece *>, 8> king_vision(int index[]);
     std::array<std::vector<Piece *>, 8> pawn_vision(int index[], int color);
     std::array<std::vector<Piece *>, 8> piece_vision(int index[]);
-    std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 3> move_generation();
+    std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 6> piece_move_generation(int rank, int file);
+
     void update(int from[], int to[], bool isCastle = false);
     bool isCheck(int color);
+
+    void generateMoves();
+
+    void temp_promote(PieceType piece, int index[2])
+    {
+        board[index[0]][index[1]].piece_type = piece;
+    }
 
     void printBoard()
     {
@@ -108,6 +120,20 @@ public:
         //     }
         //     std::cout << '\n';
         // }
+
+        for (int rank = 0; rank < 8; rank++)
+        {
+            for (int file = 0; file < 8; file++)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    for (auto j : board[rank][file].moves[i])
+                    {
+                        std::cout << "rank-" << rank << " file-" << file << " type-" << i << " move :- " << j.first.first << "_" << j.first.second << "  " << j.second.first << "_" << j.second.second << std::endl;
+                    }
+                }
+            }
+        }
     }
 
     Board(std::string fen = default_fen)
@@ -326,6 +352,15 @@ public:
 
         fifty_moves = stoi(modified_fen[4]);
         FEN = fen;
+
+        // moves
+        for (int rank = 0; rank < 8; rank++)
+        {
+            for (int file = 0; file < 8; file++)
+            {
+                board[rank][file].moves = piece_move_generation(rank, file);
+            }
+        }
     }
 
     ~Board()

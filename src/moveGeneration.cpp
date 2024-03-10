@@ -1,10 +1,30 @@
 #include "board.h"
 
-std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 3> Board::move_generation()
+void Board::generateMoves()
 {
-    // first index would store checks
-    // second index would store captures
-    // third index would store rest of the moves
-
-    return {};
+    for (int rank = 0; rank < 8; rank++)
+    {
+        for (int file = 0; file < 8; file++)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                for (auto move : board[rank][file].moves[i])
+                {
+                    if (board[rank][file].color != turn)
+                        continue;
+                    if (i == 5 || i == 1 || i == 3)
+                    {
+                        moves[i].push_back(move);
+                    }
+                    else if (i == 0)
+                    {
+                        Check_status = true;
+                    }
+                    else if (i == 2)
+                    {
+                    }
+                }
+            }
+        }
+    }
 }

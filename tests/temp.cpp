@@ -1,26 +1,32 @@
 #include <iostream>
+#include <set>
 
-int main()
-{
-    int arr[][2] = {{1, 2}, {3, 4}};
+class sad {
+    public:
+    int value;
 
-    int ***ptrArr;
+    sad(int v)
+    {
+        value = v;
+    }
+};
 
-    ptrArr = new int **[2];
-    for (int i = 0; i < 2; i++)
-        ptrArr[i] = new int *[2];
+int main() {
+    sad a(1), b(2), c(3), d(4);
+    std::set<sad*> mySet = {&a, &b, &c, &d};
 
-    ptrArr[0][0] = &arr[1][1];
-    ptrArr[0][1] = &arr[1][0];
-    ptrArr[1][0] = &arr[0][1];
-    ptrArr[1][1] = &arr[0][0];
+    // Find the element in the set
+    auto it = mySet.find(&a);
 
-    std::cout << *ptrArr[0][0] << std::endl;
-    
-    // Deallocate the memory for ptrArr
-    for (int i = 0; i < 2; i++)
-        delete[] ptrArr[i];
-    delete[] ptrArr;
+    // If the element is found, erase it
+    if (it != mySet.end()) {
+        mySet.erase(it);
+    }
+
+    for (auto i : mySet)
+    {
+        std::cout << i->value << std::endl;
+    }
 
 
     return 0;
