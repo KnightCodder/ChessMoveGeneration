@@ -10,6 +10,16 @@
 #include <iostream>
 #include "piece.h"
 
+enum class GameStatus
+{
+    STILL_GOING,
+    DRAW,
+    STALEMATE,
+    INSUFFICIENT_MATERIAL,
+    WHITE_WINS,
+    BLACK_WINS
+};
+
 inline std::array<int, 2> squareNameToIndex(std::string square)
 {
     int file = square[0] - 'a';
@@ -46,7 +56,9 @@ class Board
     int fifty_moves = 0;
     int materialBalance = 0;
     int turn = 0;
-    bool Check_status = false;
+    bool isCheck = false;
+    bool illegal = false;
+    GameStatus status = GameStatus::STILL_GOING;
 
     std::string FEN = "";
     std::array<std::vector<Piece *>, 8> white_king_check_vision[5];
@@ -64,7 +76,7 @@ public:
     std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 6> piece_move_generation(int rank, int file);
 
     void update(int from[], int to[], bool isCastle = false);
-    bool isCheck(int color);
+    bool Check();
 
     void generateMoves();
 
@@ -90,6 +102,8 @@ public:
         std::cout << "fifty moves : " << fifty_moves << std::endl;
         std::cout << "turn : " << turn << std::endl;
         std::cout << "FEN : " << FEN << std::endl;
+        std::cout << "isCheck : " << isCheck << std::endl;
+        std::cout << "illegal : " << illegal << std::endl;
 
         // for (int rank = 7; rank >= 0; rank--)
         // {
@@ -121,17 +135,25 @@ public:
         //     std::cout << '\n';
         // }
 
-        for (int rank = 0; rank < 8; rank++)
+        // for (int rank = 0; rank < 8; rank++)
+        // {
+        //     for (int file = 0; file < 8; file++)
+        //     {
+        //         for (int i = 0; i < 6; i++)
+        //         {
+        //             for (auto j : board[rank][file].moves[i])
+        //             {
+        //                 std::cout << "rank-" << rank << " file-" << file << " type-" << i << " move :- " << j.first.first << "_" << j.first.second << "  " << j.second.first << "_" << j.second.second << std::endl;
+        //             }
+        //         }
+        //     }
+        // }
+
+        for (int i = 0; i < 6; i++)
         {
-            for (int file = 0; file < 8; file++)
+            for (auto j : moves[i])
             {
-                for (int i = 0; i < 6; i++)
-                {
-                    for (auto j : board[rank][file].moves[i])
-                    {
-                        std::cout << "rank-" << rank << " file-" << file << " type-" << i << " move :- " << j.first.first << "_" << j.first.second << "  " << j.second.first << "_" << j.second.second << std::endl;
-                    }
-                }
+                std::cout << "type-" << i << " move :- " << j.first.first << "_" << j.first.second << "  " << j.second.first << "_" << j.second.second << std::endl;
             }
         }
     }
@@ -361,6 +383,10 @@ public:
                 board[rank][file].moves = piece_move_generation(rank, file);
             }
         }
+
+        Check();
+
+        generateMoves();
     }
 
     ~Board()

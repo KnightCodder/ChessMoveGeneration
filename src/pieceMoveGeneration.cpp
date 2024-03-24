@@ -65,14 +65,18 @@ std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 6> 
                 else if (i == 1 && j->color == -piece_color)
                 {
                     if (j->piece_type == PieceType::KING)
+                    {
                         generated_moves[0].push_back({{rank, file}, {j_rank, j_file}});
+                    }
                     else
                         generated_moves[1].push_back({{rank, file}, {j_rank, j_file}});
                 }
                 else if ((i == 2 && j->color == 0) || (i == 3 && j->color == -piece_color))
                 {
                     if (j->piece_type == PieceType::KING)
+                    {
                         generated_moves[0].push_back({{rank, file}, {j_rank, j_file}});
+                    }
                     else
                         generated_moves[4].push_back({{rank, file}, {j_rank, j_file}});
                 }
@@ -85,7 +89,9 @@ std::array<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>, 6> 
                 if (j->color == -piece_color)
                 {
                     if (j->piece_type == PieceType::KING)
+                    {
                         generated_moves[0].push_back({{rank, file}, {j_rank, j_file}});
+                    }
                     else
                         generated_moves[1].push_back({{rank, file}, {j_rank, j_file}});
                     break;

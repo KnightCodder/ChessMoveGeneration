@@ -13,6 +13,7 @@ int *moveToIndex(std::string move)
 int main()
 {
     Board myboard(default_fen);
+    myboard.printBoard();
 
     // https://lichess.org/2koHXWh0
 
@@ -85,72 +86,72 @@ int main()
     myboard.printBoard();
     std::cout<<std::endl;
 
-    myboard.update(moveToIndex("d7"), moveToIndex("d5"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("d7"), moveToIndex("d5"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
     
-    myboard.update(moveToIndex("f3"), moveToIndex("e5"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("f3"), moveToIndex("e5"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("e8"), moveToIndex("g8"));
-     myboard.update(moveToIndex("h8"), moveToIndex("f8"), true);
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("e8"), moveToIndex("g8"));
+    //  myboard.update(moveToIndex("h8"), moveToIndex("f8"), true);
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("h2"), moveToIndex("h4"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("h2"), moveToIndex("h4"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("h7"), moveToIndex("h6"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("h7"), moveToIndex("h6"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("h4"), moveToIndex("h5"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("h4"), moveToIndex("h5"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("g7"), moveToIndex("g5"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("g7"), moveToIndex("g5"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("h5"), moveToIndex("g5"), true);
-    myboard.update(moveToIndex("g5"), moveToIndex("g6"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("h5"), moveToIndex("g5"), true);
+    // myboard.update(moveToIndex("g5"), moveToIndex("g6"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("f8"), moveToIndex("e8"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("f8"), moveToIndex("e8"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("g6"), moveToIndex("f7"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("g6"), moveToIndex("f7"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("g8"), moveToIndex("h8"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("g8"), moveToIndex("h8"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("e5"), moveToIndex("g6"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("e5"), moveToIndex("g6"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("h8"), moveToIndex("g7"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("h8"), moveToIndex("g7"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("g6"), moveToIndex("f8"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("g6"), moveToIndex("f8"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.update(moveToIndex("g7"), moveToIndex("f8"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.update(moveToIndex("g7"), moveToIndex("f8"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
-    myboard.temp_promote(PieceType::QUEEN, moveToIndex("f7"));
-    myboard.update(moveToIndex("f7"), moveToIndex("e8"));
-    myboard.printBoard();
-    std::cout<<std::endl;
+    // myboard.temp_promote(PieceType::QUEEN, moveToIndex("f7"));
+    // myboard.update(moveToIndex("f7"), moveToIndex("e8"));
+    // myboard.printBoard();
+    // std::cout<<std::endl;
 
     return 0;
 }

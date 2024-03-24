@@ -155,4 +155,11 @@ void Board::update(int from[], int to[], bool isCastle)
             black_king_check_vision[4] = pawn_vision(to, black_turn);
         }
     }
+    isCheck = false;
+    illegal = false;
+    Check();
+
+    // generate moves
+    moves = {};
+    generateMoves();
 }

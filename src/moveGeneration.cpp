@@ -12,17 +12,17 @@ void Board::generateMoves()
                 {
                     if (board[rank][file].color != turn)
                         continue;
-                    if (i == 5 || i == 1 || i == 3)
+                    else if (i == 2)
+                    {
+                        if (isCheck)
+                            continue;
+                        moves[i].push_back(move);
+                    }
+                    else
                     {
                         moves[i].push_back(move);
                     }
-                    else if (i == 0)
-                    {
-                        Check_status = true;
-                    }
-                    else if (i == 2)
-                    {
-                    }
+
                 }
             }
         }
