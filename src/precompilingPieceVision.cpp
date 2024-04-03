@@ -19,7 +19,7 @@ void compilingPieceVision()
                 pawnRank = rank;
                 pawnFile = file;
 
-                if (pawnRank <= 7 && pawnRank >= 0 && pawnRank != 6)
+                if (pawnRank < 6 && pawnRank > 0)
                 {
                     precompiledPieceVision[PIECE_VISION::pawnVisionsIndex][rank][file][VISION_RELATION::whitePawnMoveIndex].push_back({static_cast<int>(pawnRank + 1), pawnFile});
                     precompiledPieceVision[PIECE_VISION::pawnVisionsIndex][7 - rank][file][VISION_RELATION::blackPawnMoveIndex].push_back({static_cast<int>(6 - pawnRank), pawnFile});
@@ -67,7 +67,7 @@ void compilingPieceVision()
                         brqRank += VISION_RELATION::kqrbIndexDiff[dir][SQUARE::rankIndex];
                         brqFile += VISION_RELATION::kqrbIndexDiff[dir][SQUARE::fileIndex];
 
-                        if (!SQUARE::isInvalidIndex(brqRank, brqFile))
+                        if (SQUARE::isInvalidIndex(brqRank, brqFile))
                             break;
 
                         if (dir < VISION_RELATION::upRightIndex)
@@ -88,8 +88,8 @@ void compilingPieceVision()
                     int knightRank = rank + VISION_RELATION::knightIndexDiff[dir][SQUARE::rankIndex];
                     int knightFile = file + VISION_RELATION::knightIndexDiff[dir][SQUARE::fileIndex];
 
-                    if (SQUARE::isInvalidIndex(knightRank, knightFile))
-                        precompiledPieceVision[PIECE_VISION::knightVisionsIndex][rank][file][dir].push_back({knightRank, knightFile});
+                    if (!SQUARE::isInvalidIndex(knightRank, knightFile))
+                        precompiledPieceVision[PIECE_VISION::knightVisionsIndex][rank][file][dir].push_back(INDEX{knightRank,knightFile});
                 }
 
                 // king
@@ -97,7 +97,7 @@ void compilingPieceVision()
                     int kingRank = rank + VISION_RELATION::kqrbIndexDiff[dir][SQUARE::rankIndex];
                     int kingFile = file + VISION_RELATION::kqrbIndexDiff[dir][SQUARE::fileIndex];
 
-                    if (SQUARE::isInvalidIndex(kingRank, kingFile))
+                    if (!SQUARE::isInvalidIndex(kingRank, kingFile))
                         precompiledPieceVision[PIECE_VISION::kingVisionsIndex][rank][file][dir].push_back({kingRank, kingFile});
                 }
             }

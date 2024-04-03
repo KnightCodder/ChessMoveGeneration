@@ -1,11 +1,16 @@
-#include "../src/index.h"
+#include "../src/board.h"
 
 int main()
 {
-    INDEX a;
-    std::cout << a.setIndex(1,2, true) << std::endl;
-
-    // std::cout << a.print() << std::endl;
+    // Board a;
+    // a.printBoard();
+    for (int i = 0; i < 10; i++)
+    {
+        INDEX a;
+        a.setIndex(1,4);
+        std::cout << a.print() << std::endl;
+    }
+    
 
     return 0;
 }

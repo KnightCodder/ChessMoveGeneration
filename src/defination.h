@@ -34,11 +34,11 @@ namespace SQUARE
     const int rankIndex = 0;
     const int fileIndex = 1;
 
-    bool isInvalidIndex(int rank, int file)
+    inline bool isInvalidIndex(int rank, int file)
     {
         if (rank < 0 || rank > 7 || file < 0 || file > 7)
-            return false;
-        return true;
+            return true;
+        return false;
     }
 }
 
@@ -83,6 +83,14 @@ struct INDEX
         setIndex(_rank, _file);
     }
 
+    bool operator<(const INDEX& other) const {
+        // Compare x first, then y if x's are equal
+        if (rank != other.rank) {
+            return rank < other.rank;
+        }
+        return file < other.file;
+    }
+
     bool setIndex(int _rank, int _file, bool exp = false)
     {
         try
@@ -96,13 +104,12 @@ struct INDEX
 
             rank = _rank;
             file = _file;
-            return true;
         }
         catch(const std::runtime_error& e)
         {
             std::cerr << "Error : " << e.what() << std::endl;
         }
-        
+        return true;
     }
 
     std::string print()
