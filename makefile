@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compilation flags
-CXXFLAGS = -Isrc
+CXXFLAGS = -Isrc -Wall -Wextra -g
 
 # Source files directory
 SRC_DIR = src
