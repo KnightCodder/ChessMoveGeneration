@@ -1,15 +1,16 @@
 #include "board.h"
 
-void Board::update(INDEX from, INDEX to)
+void Board::update(INDEX from, INDEX to, bool halfMove)
 {
-    // PIECE piece_from = boardIndex(from)->pieceType;
-    // PIECE piece_to = boardIndex(to)->pieceType;
-
-    std::cout << "updating 0" << std::endl;
+    PIECE fromPiece = boardIndex(from)->pieceType;
+    PIECE toPiece = boardIndex(to)->pieceType;
+    int fromColor = boardIndex(from)->color;
+    int toColor = boardIndex(to)->color;
 
     // deleting self from watching
     {
-        for (auto i : boardIndex(from)->watchingSquare)
+        auto x = boardIndex(from)->watchingSquare;
+        for (auto i : x)
         {
             for (auto j : i.second)
                 boardIndex(j)->watchers.erase(from);
@@ -17,7 +18,17 @@ void Board::update(INDEX from, INDEX to)
         boardIndex(from)->watchingSquare = {};
     }
 
-    std::cout << "updating 1" << std::endl;
+    // deleting watching and watcher of watching piece of captured piece
+    {
+        auto x = boardIndex(to)->watchingSquare;
+        for (auto i : x)
+        {
+            for (auto j : i.second)
+                boardIndex(j)->watchers.erase(to);
+        }
+        boardIndex(to)->watchingSquare = {};
+    }
+
     // move
     {
         boardIndex(to)->isEmpty = boardIndex(from)->isEmpty;
@@ -29,44 +40,72 @@ void Board::update(INDEX from, INDEX to)
         boardIndex(from)->pieceType = PIECE::EMPTY;
     }
 
-    std::cout << "updating 2" << std::endl;
     // moves at new location
     {
         boardIndex(to)->moves = pieceMoveGeneration({to.rank, to.file});
     }
-    std::cout << "updating 3" << std::endl;
 
     // previous watcher update
     {
-        for (auto i : boardIndex(from)->watchers)
+        auto x = boardIndex(from)->watchers;
+        for (auto i : x)
+        // for (auto i : boardIndex(from)->watchers)
         {
             boardIndex(i.first)->moves[i.second] = pieceMoveGenerationDirection(i.first, i.second);
         }
     }
 
-    std::cout << "updating 4" << std::endl;
     // current watcher update
     {
-        for (auto i : boardIndex(to)->watchers)
+        auto x = boardIndex(to)->watchers;
+        // for (auto i : boardIndex(to)->watchers)
+        for (auto i : x)
         {
-            // std::cout << i.first[0] << "_" << i.first[1] << " | " << i.second[0] << "_" << i.second[1] << std::endl;
-            // std::cout << BOARD::indexToSquareName(i.first) << " | " << i.second[0] << "_" << i.second[1] << std::endl;
-
-            // for (auto j : pieceMoveGenerationDirection(i.first, i.second))
-            // {
-            //     std::cout << "Hello World" << std::endl;
-            //     std::cout << "type : " << j.first << " | move : " << BOARD::indexToSquareName(j.second) << std::endl;
-            // }
-
-            boardIndex(i.first)->moves.insert({i.second, pieceMoveGenerationDirection(i.first, i.second)});
-
+            boardIndex(i.first)->moves[i.second] = pieceMoveGenerationDirection(i.first, i.second);
         }
     }
 
-    std::cout << "updating 5" << std::endl;
+    if (halfMove)
+        return;
+
+    // castle
     {
-        turn *= -1;
-        fiftyMoves++;
+        if (from == INDEX(0, 4) || from == INDEX(0, 7) || from == INDEX(0, 4) || to == INDEX(0, 7))
+            castle[BOARD::whiteKingSideCastleIndex] = false;
+        if (from == INDEX(0, 4) || from == INDEX(0, 0) || from == INDEX(0, 4) || to == INDEX(0, 0))
+            castle[BOARD::whiteQueenSideCastleIndex] = false;
+        if (from == INDEX(7, 4) || from == INDEX(7, 7) || from == INDEX(7, 4) || to == INDEX(7, 7))
+            castle[BOARD::blackKingSideCastleIndex] = false;
+        if (from == INDEX(7, 4) || from == INDEX(7, 0) || from == INDEX(7, 4) || to == INDEX(7, 0))
+            castle[BOARD::blackQueenSideCastleIndex] = false;
     }
-    std::cout << "updating complete" << std::endl;
+
+    // enpassent
+    {
+        enpassent = SQUARE::empty;
+        if (fromPiece == PIECE::PAWN && ((from.rank == 1 && to.rank == 3) || (from.rank == 6 && to.rank == 4)))
+        {
+            if (((to.file > 0 && boardIndex(INDEX(to.rank, to.file - 1))->pieceType == PIECE::PAWN) || (to.file < 7 && boardIndex(INDEX(to.rank, to.file + 1))->pieceType == PIECE::PAWN)) && (fromColor * boardIndex(INDEX(to.rank, to.file - 1))->color < 0 || fromColor * boardIndex(INDEX(to.rank, to.file + 1))->color < 0))
+            {
+                enpassent = INDEX((from.rank + to.rank) / 2, to.file);
+            }
+        }
+    }
+
+    // fifty moves
+    {
+        fiftyMoves++;
+        if(fromPiece == PIECE::PAWN)
+            fiftyMoves = 0;
+        if(toPiece != PIECE::EMPTY)
+            fiftyMoves = 0;
+    }
+
+    // material Balance
+    {
+        materialBalance -= toColor * MATERIAL::pieceMaterial.at(toPiece);
+    }
+
+    turn *= -1;
+
 }

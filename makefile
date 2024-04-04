@@ -13,6 +13,8 @@ OBJ_DIR = output
 # Test files directory
 TEST_DIR = tests
 
+UI_DIR = ui
+
 # List of source files
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
@@ -32,7 +34,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $< $(CXXFLAGS) -o $@
 
 # Rule to compile test1.cpp into object file
-$(OBJ_DIR)/test1.o: $(TEST_DIR)/test1.cpp
+$(OBJ_DIR)/test1.o: $(UI_DIR)/main.cpp
 	$(CXX) -c $< $(CXXFLAGS) -o $@
 
 # Clean target to remove object files and test executables

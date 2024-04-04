@@ -91,6 +91,10 @@ struct INDEX
         return file < other.file;
     }
 
+    bool operator==(const INDEX& other) const {
+        return (rank == other.rank) && (file == other.file);
+    }
+
     bool setIndex(int _rank, int _file, bool exp = false)
     {
         try
@@ -112,7 +116,7 @@ struct INDEX
         return true;
     }
 
-    std::string print()
+    std::string print() const
     {
         if (rank == SQUARE::empty || file == SQUARE::empty)
             return "invalid index";
@@ -241,6 +245,19 @@ namespace PIECE_VISION
 namespace UI
 {
     const std::map<std::pair<PIECE, int>, char> pieceToChar = {{{PIECE::KING,COLOR::white},'K'},{{PIECE::QUEEN,COLOR::white},'Q'},{{PIECE::ROOK,COLOR::white},'R'},{{PIECE::BISHOP,COLOR::white},'B'},{{PIECE::KNIGHT,COLOR::white},'N'},{{PIECE::PAWN,COLOR::white},'P'},{{PIECE::KING,COLOR::black},'k'},{{PIECE::QUEEN,COLOR::black},'q'},{{PIECE::ROOK,COLOR::black},'r'},{{PIECE::BISHOP,COLOR::black},'b'},{{PIECE::KNIGHT,COLOR::black},'n'},{{PIECE::PAWN,COLOR::black},'p'},{{PIECE::EMPTY,COLOR::nothing},'*'}};
+}
+
+namespace MATERIAL
+{
+    const int EMPTY = 0;
+    const int PAWN = 1;
+    const int KNIGHT = 3;
+    const int BISHOP = 3;
+    const int ROOK = 5;
+    const int QUEEN = 9;
+    const int KING = 1000;
+
+    const std::map<PIECE,int> pieceMaterial = {{PIECE::EMPTY,EMPTY},{PIECE::PAWN,PAWN},{PIECE::KNIGHT,KNIGHT},{PIECE::BISHOP,BISHOP},{PIECE::ROOK,ROOK},{PIECE::QUEEN,QUEEN},{PIECE::KING,KING}};
 }
 
 #endif // DEFINATION_H_INCLUDED

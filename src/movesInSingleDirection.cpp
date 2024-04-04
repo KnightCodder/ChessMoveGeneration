@@ -21,7 +21,7 @@ movesInSingleDirection Board::pieceMoveGenerationDirection(INDEX index, directio
         {
             for (auto it : boardIndex(square)->watchers)
             {
-                if (it.second == dir)
+                if (it.first == index)
                     boardIndex(square)->watchers.erase(it.first);
             }
         }
@@ -63,7 +63,7 @@ movesInSingleDirection Board::pieceMoveGenerationDirection(INDEX index, directio
         {
             for (auto it : boardIndex(square)->watchers)
             {
-                if (it.second == dir)
+                if (it.first == index)
                     boardIndex(square)->watchers.erase(it.first);
             }
         }
