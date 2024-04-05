@@ -6,21 +6,18 @@
 
 class Board
 {
-private:
+public:
     Piece board[BOARD::ranks][BOARD::files] = {};
+    int checks = 0;
+    bool illegal = false;
     bool castle[BOARD::numOfCastlingRights] = {};
     INDEX enpassent;
     int fiftyMoves = 0;
     int materialBalance = 0;
     int turn = TURN::nothing;
-    int checks = 0;
-    bool illegal = false;
     GameStatus status = GameStatus::STILL_GOING;
     std::string FEN = "";
-    INDEX whiteKingIndex;
-    INDEX blackKingIndex;
 
-public:
     Board(std::string fen = BOARD::defaultFen)
     {
         // some code to convert fen string to the above members
@@ -304,7 +301,12 @@ public:
         return count;
     }
 
-    void playMove(int type, std::pair<INDEX,INDEX> move, PIECE promotionTo = PIECE::QUEEN);
+    void playMove(int type, std::pair<INDEX, INDEX> move, PIECE promotionTo = PIECE::QUEEN);
+
+    bool operator==(const Board &other) const
+    {
+        return board == other.board;
+    }
 };
 
 #endif

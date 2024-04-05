@@ -12,6 +12,10 @@ struct Piece
     movesOfaPiece moves;
     watch watchers = {};
     watching watchingSquare = {};
+
+    operator==(const Piece &other) const{
+        return pieceType == other.pieceType && color == other.color;
+    }
 };
 
 #endif

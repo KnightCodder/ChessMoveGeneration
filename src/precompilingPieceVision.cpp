@@ -1,4 +1,5 @@
 #include "defination.h"
+#include <chrono>
 
 extern std::array<std::array<std::array<vision, BOARD::files>, BOARD::ranks>, BOARD::totalNumOfPieces> precompiledPieceVision;
 
