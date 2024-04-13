@@ -263,4 +263,14 @@ namespace MATERIAL
     const std::map<PIECE,int> pieceMaterial = {{PIECE::EMPTY,EMPTY},{PIECE::PAWN,PAWN},{PIECE::KNIGHT,KNIGHT},{PIECE::BISHOP,BISHOP},{PIECE::ROOK,ROOK},{PIECE::QUEEN,QUEEN},{PIECE::KING,KING}};
 }
 
+namespace NOTATION
+{
+    const char check = '+';
+    const char checkmate = '#';
+    const char capture = 'x';
+    const char promotion = '=';
+
+    const std::map<char, PIECE> charToPiece = {{'N', PIECE::KNIGHT},{'B', PIECE::BISHOP},{'R', PIECE::ROOK},{'Q', PIECE::QUEEN},{'K', PIECE::KING}};
+}
+
 #endif // DEFINATION_H_INCLUDED

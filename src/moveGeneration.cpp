@@ -10,10 +10,10 @@ totalMoves Board::moveGeneration()
     {
         for (int file = 0; file < BOARD::files; file++)
         {
-            {
                 for (auto i : boardIndex(INDEX(rank, file))->moves)
                 {
                     for (auto j : i.second)
+                    {
                         if (boardIndex(INDEX(rank, file))->color == turn)
                         {
                             moves[j.first].push_back({{rank, file}, j.second});
@@ -25,8 +25,8 @@ totalMoves Board::moveGeneration()
                             if (j.first == 0)
                                 checks++;
                         }
+                    }
                 }
-            }
         }
     }
 

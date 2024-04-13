@@ -307,6 +307,8 @@ public:
     {
         return board == other.board;
     }
+
+    std::pair<std::pair<int,std::pair<INDEX, INDEX>>,PIECE> notationsToIndex(std::string move);
 };
 
 #endif
