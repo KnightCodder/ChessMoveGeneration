@@ -1,19 +1,22 @@
 #include "board.h"
-#include <chrono>
-#include <algorithm>
 
 void compilingPieceVision();
-
 
 int main()
 {
     compilingPieceVision();
 
-    Board a("rn1q1rk1/1p1Pbpp1/p1p1pn2/5b1p/3P4/1N3NP1/PP2PPBP/R1BQR1K1 b - - 0 13");
+    Board myBoard(BOARD::defaultFen);
 
-    std::pair<std::pair<int,std::pair<INDEX, INDEX>>,PIECE> move = a.notationsToIndex("Nfxd7");
-    std::cout << "type : " << move.first.first << " | " << move.first.second.first.print() << " " << move.first.second.second.print() << " | piece : " << UI::pieceToChar.at({move.second, a.turn}) << std::endl;
-    // std::cout << move.first.file << move.first.rank << " " << move.second.print() << std::endl;
+    while (myBoard.status == GameStatus::STILL_GOING)
+    {
+        std::cout << "\n-------------------------------------------------------" << std::endl;
+        myBoard.printBoard();
+        std::string move;
+        std::cout << "\nenter a move : ";
+        std::cin >> move;
+        myBoard.playMove(myBoard.notationsToIndex(move));
+    }
 
     return 0;
 }

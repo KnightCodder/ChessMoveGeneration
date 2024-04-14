@@ -233,6 +233,20 @@ namespace MOVE
     const int remainingMovesIndex = 5;
 }
 
+struct Move
+{
+    int type;
+    std::pair<INDEX,INDEX> move;
+    PIECE promotionTo = PIECE::QUEEN;
+
+    Move (int t, std::pair<INDEX,INDEX> m, PIECE p)
+    {
+        type = t;
+        move = m;
+        promotionTo = p;
+    }
+};
+
 namespace PIECE_VISION
 {
     const int pawnVisionsIndex = 0;

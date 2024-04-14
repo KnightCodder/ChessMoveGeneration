@@ -301,14 +301,14 @@ public:
         return count;
     }
 
-    void playMove(int type, std::pair<INDEX, INDEX> move, PIECE promotionTo = PIECE::QUEEN);
+    void playMove(Move moveData);
 
     bool operator==(const Board &other) const
     {
         return board == other.board;
     }
 
-    std::pair<std::pair<int,std::pair<INDEX, INDEX>>,PIECE> notationsToIndex(std::string move);
+    Move notationsToIndex(std::string move);
 };
 
 #endif
