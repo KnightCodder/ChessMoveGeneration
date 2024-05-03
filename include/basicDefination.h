@@ -59,7 +59,9 @@ enum class GameStatus
     STALEMATE,
     INSUFFICIENT_MATERIAL,
     WHITE_WINS,
-    BLACK_WINS
+    BLACK_WINS,
+    NOT_SURE,
+    ILLEGAL
 };
 
 enum class PIECE

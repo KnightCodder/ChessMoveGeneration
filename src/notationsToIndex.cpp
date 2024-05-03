@@ -8,6 +8,7 @@ Move Board::notationsToIndex(std::string move)
     PIECE promotionPiece = PIECE::QUEEN;
     int type;
     int it = 0;
+
     if (move == "O-O")
     {
         from.file = 4;
@@ -99,23 +100,63 @@ Move Board::notationsToIndex(std::string move)
         }
     }
 
+    bool found = false;
+
     for (auto x : boardIndex(to)->watchers)
     {
+        std::cout << "how many times : " << x.first.print() << std::endl;
         if (boardIndex(x.first)->pieceType == pieceType && boardIndex(x.first)->color == turn && (from.file == SQUARE::empty || from.file == x.first.file) && (from.rank == SQUARE::empty || from.rank == x.first.rank))
         {
             from = x.first;
 
             for (auto y : boardIndex(from)->moves.at(x.second))
             {
+                std::cout << "i am here : " << from.print() << " | " << UI::pieceToChar.at({boardIndex(from)->pieceType, boardIndex(from)->color}) << std::endl;
                 if (y.second == to)
                 {
                     type = y.first;
-                    break;
+
+                    Board tempBoard = *this;
+                    tempBoard.playMove(Move(type, {from, to}, promotionPiece));
+                    tempBoard.moveGeneration();
+
+                        std::cout << "why" << std::endl;
+                        tempBoard.printBoard();
+                    if (tempBoard.illegal)
+                    {
+                        // std::cout << "please : " << tempBoard.board == board << std::endl;
+                        continue;;
+                    }
+                        found = true;
+                        break;
                 }
             }
 
-            break;
+            if (found)
+                break;
         }
+    }
+
+    if (!enpassent.isEmpty() && to == enpassent)
+    {
+        for (auto x : boardIndex(to)->watchers)
+        {
+            if (boardIndex(x.first)->pieceType == PIECE::PAWN && boardIndex(x.first)->color == turn && from.file == x.first.file)
+            {
+                type = MOVE::enpassentIndex;
+                from = x.first;
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (!found)
+    {
+        std::cout << "\n\nerror in png, move :- " << move << std::endl;
+        printBoard();
+        std::cout << "\n"
+                  << std::endl;
     }
 
     return Move(type, {from, to}, promotionPiece);
