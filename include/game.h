@@ -1,32 +1,7 @@
-// this is created to convert pgn with evaluation to convert into Board and evaluation pair
-// currently it is not too flexible
-
 #ifndef GAME_H
 #define GAME_H
 
-#include "board.h"
-
-struct Position
-{
-    Board board;
-    int moveNum;
-    double eval = 0;
-    std::pair<INDEX, INDEX> move;
-
-    Position(Board b, int mn, double e, std::pair<INDEX, INDEX> m)
-    {
-        board = b;
-        moveNum = mn;
-        eval = e;
-        move = m;
-    }
-
-    void print()
-    {
-        board.printBoard();
-        std::cout << "move number : " << moveNum << "\neval : " << eval << "\nmove : " << move.first.print() << "_" << move.second.print() << std::endl;
-    }
-};
+#include "position.h"
 
 class Game
 {

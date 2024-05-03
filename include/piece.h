@@ -1,7 +1,7 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include "defination.h"
+#include "basicDefination.h"
 
 struct Piece
 {
@@ -15,6 +15,10 @@ struct Piece
 
     operator==(const Piece &other) const{
         return pieceType == other.pieceType && color == other.color;
+    }
+
+    bool operator<(const Piece &other) const{
+        return (static_cast<int>(pieceType) * color < other.color * static_cast<int>(other.pieceType));
     }
 };
 

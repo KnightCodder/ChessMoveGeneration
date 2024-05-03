@@ -253,43 +253,6 @@ public:
 
     movesInSingleDirection pieceMoveGenerationDirection(INDEX index, direction dir);
 
-    void temp()
-    {
-        // for (auto i : board[index[0]][index[1]].watchingSquare)
-        // {
-        //     for (auto j : i.second)
-        //     {
-        //         std::cout << "dir : " << i.first[0] << "_" << i.first[1] << " | index : " << BOARD::indexToSquareName(j) << std::endl;
-        //     }
-        // }
-
-        for (int rank = 0; rank < 8; rank++)
-        {
-            for (int file = 0; file < 8; file++)
-            {
-                for (auto it : boardIndex(INDEX(rank, file))->watchingSquare)
-                {
-                    for (auto i : it.second)
-                    {
-                        std::cout << INDEX(rank, file).print() << " | index : " << i.print() << " | dir : " << it.first[0] << "_" << it.first[1] << std::endl;
-                    }
-                }
-            }
-        }
-        std::cout << std::endl;
-
-        for (int rank = 0; rank < 8; rank++)
-        {
-            for (int file = 0; file < 8; file++)
-            {
-                for (auto it : boardIndex(INDEX(rank, file))->watchers)
-                {
-                    std::cout << INDEX(rank, file).print() << " | index : " << it.first.print() << " | dir : " << it.second[0] << "_" << it.second[1] << std::endl;
-                }
-            }
-        }
-    }
-
     int attackers(INDEX index, int color)
     {
         int count = 0;
@@ -306,6 +269,11 @@ public:
     bool operator==(const Board &other) const
     {
         return board == other.board;
+    }
+
+    bool operator<(const Board &other) const
+    {
+        return board < other.board;
     }
 
     Move notationsToIndex(std::string move);

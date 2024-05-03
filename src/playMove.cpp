@@ -40,6 +40,6 @@ void Board::playMove(Move moveData)
 
     else
     {
-        std::cout << "ERROR : Invalid Type" << std::endl;
+        std::cout << "ERROR : Invalid Type :- " << moveData.type << std::endl;
     }
 }
