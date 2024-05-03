@@ -85,7 +85,7 @@ void Board::update(INDEX from, INDEX to, bool halfMove)
         enpassent = SQUARE::empty;
         if (fromPiece == PIECE::PAWN && ((from.rank == 1 && to.rank == 3) || (from.rank == 6 && to.rank == 4)))
         {
-            if (((to.file > 0 && boardIndex(INDEX(to.rank, to.file - 1))->pieceType == PIECE::PAWN) || (to.file < 7 && boardIndex(INDEX(to.rank, to.file + 1))->pieceType == PIECE::PAWN)) && (fromColor * boardIndex(INDEX(to.rank, to.file - 1))->color < 0 || fromColor * boardIndex(INDEX(to.rank, to.file + 1))->color < 0))
+            if ((to.file > 0 && boardIndex(INDEX(to.rank, to.file - 1))->pieceType == PIECE::PAWN && fromColor * boardIndex(INDEX(to.rank, to.file - 1))->color < 0) || (to.file < 7 && boardIndex(INDEX(to.rank, to.file + 1))->pieceType == PIECE::PAWN && fromColor * boardIndex(INDEX(to.rank, to.file + 1))->color < 0))
             {
                 enpassent = INDEX((from.rank + to.rank) / 2, to.file);
             }
@@ -95,9 +95,9 @@ void Board::update(INDEX from, INDEX to, bool halfMove)
     // fifty moves
     {
         fiftyMoves++;
-        if(fromPiece == PIECE::PAWN)
+        if (fromPiece == PIECE::PAWN)
             fiftyMoves = 0;
-        if(toPiece != PIECE::EMPTY)
+        if (toPiece != PIECE::EMPTY)
             fiftyMoves = 0;
     }
 
@@ -107,5 +107,4 @@ void Board::update(INDEX from, INDEX to, bool halfMove)
     }
 
     turn *= -1;
-
 }

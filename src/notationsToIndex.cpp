@@ -9,7 +9,7 @@ Move Board::notationsToIndex(std::string move)
     int type;
     int it = 0;
 
-    if (move == "O-O")
+    if (move == "O-O" || move == "O-O+" || move == "O-O#")
     {
         from.file = 4;
         to.file = 6;
@@ -22,7 +22,7 @@ Move Board::notationsToIndex(std::string move)
         return Move(MOVE::castleIndex, {from, to}, promotionPiece);
     }
 
-    if (move == "O-O-O")
+    if (move == "O-O-O" || move == "O-O-O+" || move == "O-O-O#")
     {
         from.file = 4;
         to.file = 2;
@@ -102,41 +102,6 @@ Move Board::notationsToIndex(std::string move)
 
     bool found = false;
 
-    for (auto x : boardIndex(to)->watchers)
-    {
-        std::cout << "how many times : " << x.first.print() << std::endl;
-        if (boardIndex(x.first)->pieceType == pieceType && boardIndex(x.first)->color == turn && (from.file == SQUARE::empty || from.file == x.first.file) && (from.rank == SQUARE::empty || from.rank == x.first.rank))
-        {
-            from = x.first;
-
-            for (auto y : boardIndex(from)->moves.at(x.second))
-            {
-                std::cout << "i am here : " << from.print() << " | " << UI::pieceToChar.at({boardIndex(from)->pieceType, boardIndex(from)->color}) << std::endl;
-                if (y.second == to)
-                {
-                    type = y.first;
-
-                    Board tempBoard = *this;
-                    tempBoard.playMove(Move(type, {from, to}, promotionPiece));
-                    tempBoard.moveGeneration();
-
-                        std::cout << "why" << std::endl;
-                        tempBoard.printBoard();
-                    if (tempBoard.illegal)
-                    {
-                        // std::cout << "please : " << tempBoard.board == board << std::endl;
-                        continue;;
-                    }
-                        found = true;
-                        break;
-                }
-            }
-
-            if (found)
-                break;
-        }
-    }
-
     if (!enpassent.isEmpty() && to == enpassent)
     {
         for (auto x : boardIndex(to)->watchers)
@@ -147,6 +112,32 @@ Move Board::notationsToIndex(std::string move)
                 from = x.first;
                 found = true;
                 break;
+            }
+        }
+    }
+
+
+    for (auto x : boardIndex(to)->watchers)
+    {
+        if (boardIndex(x.first)->pieceType == pieceType && boardIndex(x.first)->color == turn && (from.file == SQUARE::empty || from.file == x.first.file) && (from.rank == SQUARE::empty || from.rank == x.first.rank))
+        {
+            INDEX tempfrom = x.first;
+
+            for (auto y : boardIndex(tempfrom)->moves.at(x.second))
+            {
+                if (y.second == to)
+                {
+                    type = y.first;
+
+                    Board tempBoard = copy();
+                    tempBoard.playMove(Move(type, {tempfrom, to}, promotionPiece));
+                    tempBoard.moveGeneration();
+
+                    if (!tempBoard.illegal)
+                    {
+                        return Move(type, {tempfrom, to}, promotionPiece);
+                    }
+                }
             }
         }
     }

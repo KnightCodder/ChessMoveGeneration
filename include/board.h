@@ -277,6 +277,32 @@ public:
     }
 
     Move notationsToIndex(std::string move);
+
+    Board copy() const {
+        Board temp;
+        
+        // Copy board
+        for (int i = 0; i < BOARD::ranks; ++i) {
+            for (int j = 0; j < BOARD::files; ++j) {
+                temp.board[i][j] = board[i][j];
+            }
+        }
+        
+        // Copy other members
+        temp.checks = checks;
+        temp.illegal = illegal;
+        for (int i = 0; i < BOARD::numOfCastlingRights; ++i) {
+            temp.castle[i] = castle[i];
+        }
+        temp.enpassent = enpassent;
+        temp.fiftyMoves = fiftyMoves;
+        temp.materialBalance = materialBalance;
+        temp.turn = turn;
+        temp.status = status;
+        temp.FEN = FEN;
+        
+        return temp;
+    }
 };
 
 #endif

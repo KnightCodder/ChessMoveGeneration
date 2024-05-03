@@ -119,24 +119,3 @@ void compilingPieceVision()
 
     std::cout << "Size of precompiledPieceVision: " << size << " bytes" << std::endl;
 }
-
-void checkPrecomiledpiecevision()
-{
-    for (int piece = 0; piece < BOARD::totalNumOfPieces; piece++)
-    {
-        for (int rank = 0; rank < 8; rank++)
-        {
-            for (int file = 0; file < 8; file++)
-            {
-                for (int dir = 0; dir < VISION_RELATION::maxNumOfMoveDirection; dir++)
-                {
-                    for (auto move : precompiledPieceVision[piece][rank][file][dir])
-                    {
-                        if (move.rank > 7 || move.rank < 0 || move.file > 7 || move.file < 0)
-                            std::cout << "fuck u" << std::endl;
-                    }
-                }
-            }
-        }
-    }
-}
