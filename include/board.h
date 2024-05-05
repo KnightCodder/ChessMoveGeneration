@@ -227,11 +227,13 @@ public:
 
     void printBoard()
     {
+        std::cout << "\n---------------------------------\n";
         for (int rank = 7; rank >= 0; rank--)
         {
+            std::cout << "| ";
             for (int file = 0; file < 8; file++)
-                std::cout << UI::pieceToChar.find(std::make_pair(boardIndex(INDEX{rank, file})->pieceType, boardIndex(INDEX{rank, file})->color))->second << " ";
-            std::cout << '\n';
+                std::cout << UI::pieceToChar.find(std::make_pair(boardIndex(INDEX{rank, file})->pieceType, boardIndex(INDEX{rank, file})->color))->second << " | ";
+            std::cout << "\n---------------------------------\n";
         }
         std::cout << std::endl;
 
