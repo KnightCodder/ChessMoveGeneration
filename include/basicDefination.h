@@ -272,7 +272,7 @@ namespace PIECE_VISION
 
 namespace UI
 {
-    const std::map<std::pair<PIECE, int>, char> pieceToChar = {{{PIECE::KING, COLOR::white}, 'K'}, {{PIECE::QUEEN, COLOR::white}, 'Q'}, {{PIECE::ROOK, COLOR::white}, 'R'}, {{PIECE::BISHOP, COLOR::white}, 'B'}, {{PIECE::KNIGHT, COLOR::white}, 'N'}, {{PIECE::PAWN, COLOR::white}, 'P'}, {{PIECE::KING, COLOR::black}, 'k'}, {{PIECE::QUEEN, COLOR::black}, 'q'}, {{PIECE::ROOK, COLOR::black}, 'r'}, {{PIECE::BISHOP, COLOR::black}, 'b'}, {{PIECE::KNIGHT, COLOR::black}, 'n'}, {{PIECE::PAWN, COLOR::black}, 'p'}, {{PIECE::EMPTY, COLOR::nothing}, '*'}};
+    const std::map<std::pair<PIECE, int>, char> pieceToChar = {{{PIECE::KING, COLOR::white}, 'K'}, {{PIECE::QUEEN, COLOR::white}, 'Q'}, {{PIECE::ROOK, COLOR::white}, 'R'}, {{PIECE::BISHOP, COLOR::white}, 'B'}, {{PIECE::KNIGHT, COLOR::white}, 'N'}, {{PIECE::PAWN, COLOR::white}, 'P'}, {{PIECE::KING, COLOR::black}, 'k'}, {{PIECE::QUEEN, COLOR::black}, 'q'}, {{PIECE::ROOK, COLOR::black}, 'r'}, {{PIECE::BISHOP, COLOR::black}, 'b'}, {{PIECE::KNIGHT, COLOR::black}, 'n'}, {{PIECE::PAWN, COLOR::black}, 'p'}, {{PIECE::EMPTY, COLOR::nothing}, '.'}};
 }
 
 namespace MATERIAL

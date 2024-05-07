@@ -227,15 +227,17 @@ public:
 
     void printBoard()
     {
-        std::cout << "\n---------------------------------\n";
+        std::cout << "\n  ---------------------------------\n";
+        // std::cout << "\n+---+---+---+---+---+---+---+---+\n";
         for (int rank = 7; rank >= 0; rank--)
         {
-            std::cout << "| ";
+            std::cout << rank + 1 << " | ";
+            // std::cout << "| ";
             for (int file = 0; file < 8; file++)
                 std::cout << UI::pieceToChar.find(std::make_pair(boardIndex(INDEX{rank, file})->pieceType, boardIndex(INDEX{rank, file})->color))->second << " | ";
-            std::cout << "\n---------------------------------\n";
+            std::cout << "\n  ---------------------------------\n";
         }
-        std::cout << std::endl;
+        std::cout << "    a   b   c   d   e   f   g   h" << std::endl;
 
         std::cout << "castle(KQkq) : " << castle[BOARD::whiteKingSideCastleIndex] << castle[BOARD::whiteQueenSideCastleIndex] << castle[BOARD::blackKingSideCastleIndex] << castle[BOARD::blackQueenSideCastleIndex] << std::endl;
         std::cout << "enpassent : " << enpassent.print() << std::endl;
@@ -280,20 +282,24 @@ public:
 
     Move notationsToIndex(std::string move);
 
-    Board copy() const {
+    Board copy() const
+    {
         Board temp;
-        
+
         // Copy board
-        for (int i = 0; i < BOARD::ranks; ++i) {
-            for (int j = 0; j < BOARD::files; ++j) {
+        for (int i = 0; i < BOARD::ranks; ++i)
+        {
+            for (int j = 0; j < BOARD::files; ++j)
+            {
                 temp.board[i][j] = board[i][j];
             }
         }
-        
+
         // Copy other members
         temp.checks = checks;
         temp.illegal = illegal;
-        for (int i = 0; i < BOARD::numOfCastlingRights; ++i) {
+        for (int i = 0; i < BOARD::numOfCastlingRights; ++i)
+        {
             temp.castle[i] = castle[i];
         }
         temp.enpassent = enpassent;
@@ -302,7 +308,7 @@ public:
         temp.turn = turn;
         temp.status = status;
         temp.FEN = FEN;
-        
+
         return temp;
     }
 };
